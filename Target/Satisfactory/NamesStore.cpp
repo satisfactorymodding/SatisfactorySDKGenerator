@@ -4,11 +4,8 @@
 class FNameEntry
 {
 public:
-	//static const auto NAME_WIDE_MASK = 0x1;
-	//static const auto NAME_INDEX_SHIFT = 1;
-	int Index;
-	//char UnknownData00[0x04];
 	FNameEntry* HashNext;
+	int Index;
 	char AnsiName[1024];
 };
 
@@ -18,7 +15,7 @@ public:
 	enum
 	{
 		ElementsPerChunk = 16 * 1024,
-		ChunkTableSize = (2 * 1024 * 1024 + ElementsPerChunk - 1) / ElementsPerChunk
+		ChunkTableSize = (4 * 1024 * 1024 + ElementsPerChunk - 1) / ElementsPerChunk
 	};
 
 	bool IsValidIndex(int Index)
@@ -48,7 +45,7 @@ TNameEntryArray* GlobalNames;
 
 bool NamesStore::Initialize()
 {
-	auto Address = FindPattern(GetModuleHandleW(0), (unsigned char*)"\x48\x8B\x05\x00\x00\x00\x03\x48\x85\xC0\x0F\x85\xB0", "xxx???xxxxxxx");
+	auto Address = FindPattern(GetModuleHandleW(0), (unsigned char*)"\x48\x8B\x05\x00\x00\x00\x03\x48\x85\xC0\x0F\x85\x81", "xxx???xxxxxxx");
 	GlobalNames = *(TNameEntryArray**)(Address + *(DWORD*)(Address + 0x3) + 0x7);
 
 	return true;

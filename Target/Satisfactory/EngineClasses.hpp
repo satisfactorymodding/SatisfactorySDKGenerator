@@ -204,20 +204,13 @@ public:
 	UField* Next;
 };
 
-//class UEnum : public UField
-//{
-//public:
-//	FString CppType;
-//	TArray<FName> Names;
-//	int32_t CppForm;
-//};
-
 class UEnum : public UField
 {
 public:
-	FString CppType; //0x0030 
-	TArray<TPair<FName, uint64_t>> Names; //0x0040 
-	int64_t CppForm; //0x0050 
+	FString CppType;
+	TArray<TPair<FName, int64_t>> Names;
+	int64_t CppForm;
+	FText EnumDisplayNameFn;
 };
 
 class UProperty : public UField
@@ -227,8 +220,10 @@ public:
 	int32_t ElementSize;
 	FQWord PropertyFlags;
 	int16_t RepIndex;
-	FName RepNotifyFunc;
+	uint8_t BlueprintReplicationCondition;
+	char UnknownData[0x1];
 	int32_t Offset;
+	FName RepNotifyFunc;
 	UProperty* PropertyLinkNext;
 	UProperty* NextRef;
 	UProperty* DestructorLinkNext;
@@ -238,25 +233,20 @@ public:
 class UStruct : public UField
 {
 public:
+	char UnknownData00[0x10];
 	UStruct* SuperField;
 	UField* Children;
 	int32_t PropertySize;
-	TArray<uint8_t> Script;
 	int32_t MinAlignment;
-	UProperty* PropertyLink;
-	UProperty* RefLink;
-	UProperty* DestructorLink;
-	UProperty* PostConstructLink;
-	TArray<UObject*> ScriptObjectReferences;
-	TArray<UProperty*> AllSaveGameProps;
+	char UnknownData01[0x40];
 };
 
 class UFunction : public UStruct
 {
 public:
 	uint32_t FunctionFlags;
-	uint16_t RepOffset;
 	uint8_t NumParms;
+	char UnknownData00[0x1];
 	uint16_t ParmsSize;
 	uint16_t ReturnValueOffset;
 	uint16_t RPCId;
@@ -268,7 +258,7 @@ public:
 class UClass : public UStruct
 {
 public:
-	char UnknownData[0xF8];
+	char UnknownData[0x1A0];
 };
 
 class UScriptStruct : public UStruct

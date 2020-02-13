@@ -161,12 +161,12 @@ void SaveSDKHeader(const fs::path& path, const std::unordered_map<UEObject, bool
 		GetModuleInformation(GetCurrentProcess(), (HMODULE)BaseAddress, &ModuleInfo, sizeof(ModuleInfo));
 
 		auto GNamesAddress = FindPattern(BaseAddress, ModuleInfo.SizeOfImage,
-			"\x48\x8B\x05\x00\x00\x00\x03\x48\x85\xC0\x0F\x85\xB0", "xxx???xxxxxxx", 0);
+			"\x48\x8B\x05\x00\x00\x00\x03\x48\x85\xC0\x0F\x85\x81", "xxx???xxxxxxx", 0);
 		auto GNamesOffset = *reinterpret_cast<uint32_t*>(GNamesAddress + 3);
 		FName::GNames = *reinterpret_cast<TNameEntryArray**>(GNamesAddress + 7 + GNamesOffset);
 
 		auto GObjectsAddress = FindPattern(BaseAddress, ModuleInfo.SizeOfImage,
-			"\x48\x8D\x0D\x00\x00\x00\x04\xE8\x00\x00\x00\x00\xE8\x00\x00\x00\x00\xE8\x00\x00\x00\x01", "xxx???xx???xx???xx???x", 0);
+			"\x48\x8D\x0D\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x48\x00\x00\x00\x0E\x00\x00\xE8", "xxx????x???xx???xxxx", 0);
 		auto GObjectsOffset = *reinterpret_cast<uint32_t*>(GObjectsAddress + 3);
 		UObject::GObjects = reinterpret_cast<FUObjectArray*>(GObjectsAddress + 7 + GObjectsOffset);
 

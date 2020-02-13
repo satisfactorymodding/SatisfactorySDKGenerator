@@ -14,7 +14,7 @@ public:
 		};
 
 		virtualFunctionPattern["Class CoreUObject.Object"] = {
-			{ "\x88\x45\x00\x48\x8D\x4D\x20\x48\x8D\x45\x00\x48\x89\x45", "xxxxxxxxxxxxxx", 0x400, R"(	inline void ProcessEvent(class UFunction* function, void* parms)
+			{ "\x44\x88\x7D\x00\x48\x89", "xxxxxx", 0x400, R"(	inline void ProcessEvent(class UFunction* function, void* parms)
 	{
 		return GetVFunction<void(*)(UObject*, class UFunction*, void*)>(this, %d)(this, function, parms);
 	})" }
@@ -41,22 +41,17 @@ public:
 			{ "class UField*", "Next" }
 		};
 		predefinedMembers["Class CoreUObject.Struct"] = {
+			{ "char", "UnknownData00[0x10]"},
 			{ "class UStruct*", "SuperField" },
 			{ "class UField*", "Children" },
 			{ "int32_t", "PropertySize" },
-			{ "TArray<uint8_t>", "Script" },
 			{ "int32_t", "MinAlignment" },
-			{ "class UProperty*", "PropertyLink" },
-			{ "class UProperty*", "RefLink" },
-			{ "class UProperty*", "DestructorLink" },
-			{ "class UProperty*", "PostConstructLink" },
-			{ "TArray<UObject*>", "ScriptObjectReferences" },
-			{ "TArray<UProperty*>", "AllSaveGameProps" },
+			{ "char", "UnknownData01[0x40]"}
 		};
 		predefinedMembers["Class CoreUObject.Function"] = {
 			{ "int32_t", "FunctionFlags" },
-			{ "int16_t", "RepOffset" },
 			{ "int8_t", "NumParms" },
+			{ "char", "UnknownData[0x1]"},
 			{ "int16_t", "ParmsSize" },
 			{ "int16_t", "ReturnValueOffset" },
 			{ "int16_t", "RPCId" },
