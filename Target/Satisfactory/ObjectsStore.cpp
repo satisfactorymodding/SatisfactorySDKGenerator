@@ -53,7 +53,7 @@ FUObjectArray* GlobalObjects;
 
 bool ObjectsStore::Initialize()
 {
-	auto Address = FindPattern(GetModuleHandleW(0), (unsigned char*)"\x48\x8D\x0D\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x48\x00\x00\x00\x0E\x00\x00\xE8", "xxx????x???xx???xxxx");
+	auto Address = FindPattern(GetModuleHandleW(0), (unsigned char*)"\x48\x8D\x0D\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x48\x00\x00\x00\x0D\x00\x00\xE8", "xxx????x???xx???xxxx");
 	GlobalObjects = (FUObjectArray*)(Address + *(DWORD*)(Address + 0x3) + 0x7);
 
 	return true;
